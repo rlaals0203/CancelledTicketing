@@ -1,0 +1,13 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UXML/SeatGenerator.uss?fileID=7433441132597879392&amp;guid=09435ed6be2ba5043a60e3cd6aab6fdc&amp;type=3#SeatGenerator" />
+    <engine:VisualElement style="flex-grow: 1; height: 70%; width: 100%;">
+        <engine:Label text="Generate Custom Seat" style="justify-content: flex-start; align-content: flex-start; align-items: stretch; width: 100%; height: 34px; -unity-text-align: middle-center; font-size: 24px; -unity-font-style: bold; color: rgb(255, 255, 255);" />
+        <engine:VisualElement name="Seats" style="flex-grow: 1; height: 320px; width: 320px; justify-content: center; align-self: flex-end;">
+            <engine:GroupBox style="width: 325px; height: 320px; background-color: rgb(101, 101, 101); align-self: flex-end; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; flex-direction: row; align-items: flex-start; justify-content: flex-start;">
+                <engine:Button text="&#10;" enable-rich-text="true" name="Seat1" class="Seat" style="width: 8px; height: 8px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px;" />
+            </engine:GroupBox>
+        </engine:VisualElement>
+    </engine:VisualElement>
+    <engine:VisualElement style="flex-grow: 1;" />
+    <engine:VisualElement style="flex-grow: 1;" />
+</engine:UXML>
