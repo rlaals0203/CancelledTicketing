@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-[CustomEditor(typeof(SeatGroup))]
+#if true
+
+[CustomEditor(typeof(SeatGenerator))]
 public class SeatGeneratorEditor : Editor
 {
     public VisualTreeAsset VisualTree;
@@ -20,3 +22,4 @@ public class SeatGeneratorEditor : Editor
 
     }
 }
+#endif
