@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-#if true
-
 [CustomEditor(typeof(SeatGenerator))]
 public class SeatGeneratorEditor : Editor
 {
@@ -22,4 +20,3 @@ public class SeatGeneratorEditor : Editor
 
     }
 }
-#endif
