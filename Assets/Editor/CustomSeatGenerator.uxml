@@ -1,0 +1,7 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/CustomSeatGenerator.uss?fileID=7433441132597879392&amp;guid=a4dbc563d795c754a995439e2700c3bf&amp;type=3#CustomSeatGenerator" />
+    <engine:Label text="Custom Seat Generator" name="title" style="top: 15px;" />
+    <engine:VisualElement name="seat-background" style="flex-grow: 1; background-color: rgb(85, 85, 85); margin-top: 15px; margin-right: 15px; margin-bottom: 15px; margin-left: 15px; width: 540px; height: 500px; align-self: center; align-items: flex-start; align-content: auto; flex-wrap: wrap; flex-direction: row;" />
+    <engine:TextField label="Prefab Name" placeholder-text="enter prefab name" name="seat-name" style="align-self: auto; flex-direction: row; align-content: auto; flex-wrap: nowrap; width: 50%;" />
+    <engine:Button text="Generate" name="generate-btn" style="width: 50%;" />
+</engine:UXML>
