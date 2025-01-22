@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class BoardEditor : EditorWindow
 {
-    private const int BoardSize = 50; // 50 x 50 º¸µå
-    private bool[,] selectedCells = new bool[BoardSize, BoardSize]; // ¼±ÅÃµÈ Ä­ ÀúÀå
+    private const int BoardSize = 50; // 50 x 50 ë³´ë“œ
+    private bool[,] selectedCells = new bool[BoardSize, BoardSize]; // ì„ íƒëœ ì¹¸ ì €ì¥
     private string prefabName = "NewPrefab";
 
     [MenuItem("Tools/Board Creator")]
@@ -15,7 +15,7 @@ public class BoardEditor : EditorWindow
 
     private void OnGUI()
     {
-        // Ä­ ¼±ÅÃ ±×¸®µå
+        // ì¹¸ ì„ íƒ ê·¸ë¦¬ë“œ
         GUILayout.Label("Select Cells", EditorStyles.boldLabel);
         for (int y = 0; y < BoardSize; y++)
         {
@@ -27,11 +27,11 @@ public class BoardEditor : EditorWindow
             GUILayout.EndHorizontal();
         }
 
-        // ÀÌ¸§ ÀÔ·Â
+        // ì´ë¦„ ì…ë ¥
         GUILayout.Space(10);
         prefabName = EditorGUILayout.TextField("Prefab Name", prefabName);
 
-        // »ı¼º ¹öÆ°
+        // ìƒì„± ë²„íŠ¼
         if (GUILayout.Button("Generate"))
         {
             GeneratePrefab();
@@ -40,7 +40,7 @@ public class BoardEditor : EditorWindow
 
     private void GeneratePrefab()
     {
-        // ¼±ÅÃµÈ Ä­¿¡ ±â¹İÇÏ¿© ¹öÆ° »ı¼º
+        // ì„ íƒëœ ì¹¸ì— ê¸°ë°˜í•˜ì—¬ ë²„íŠ¼ ìƒì„±
         GameObject parentObject = new GameObject("GeneratedButtons");
 
         for (int y = 0; y < BoardSize; y++)
@@ -49,14 +49,14 @@ public class BoardEditor : EditorWindow
             {
                 if (selectedCells[x, y])
                 {
-                    GameObject button = GameObject.CreatePrimitive(PrimitiveType.Cube); // ¹öÆ° ´ë½Å Å¥ºê »ı¼º
+                    GameObject button = GameObject.CreatePrimitive(PrimitiveType.Cube); // ë²„íŠ¼ ëŒ€ì‹  íë¸Œ ìƒì„±
                     button.transform.position = new Vector3(x, 0, y);
                     button.transform.parent = parentObject.transform;
                 }
             }
         }
 
-        // ÇÁ¸®ÆÕÀ¸·Î ÀúÀå
+        // í”„ë¦¬íŒ¹ìœ¼ë¡œ ì €ì¥
         string path = $"Assets/{prefabName}.prefab";
         PrefabUtility.SaveAsPrefabAsset(parentObject, path);
         DestroyImmediate(parentObject);

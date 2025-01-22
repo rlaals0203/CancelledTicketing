@@ -4,15 +4,15 @@
     background-color: rgb(85, 85, 85);
     color: rgb(255, 255, 255);
     align-self: center;
-    font-size: 20px;
+    font-size: 18px;
     border-top-width: 10px;
-    border-right-width: 10px;
+    border-right-width: 25px;
     border-bottom-width: 10px;
-    border-left-width: 10px;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-    border-bottom-left-radius: 25px;
+    border-left-width: 25px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
     top: 15px;
 }
 
