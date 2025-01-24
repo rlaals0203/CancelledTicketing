@@ -46,11 +46,12 @@ public class SeatGeneratorEditor : EditorWindow
                 Button button = new Button();
                 datas[y, x] = new SeatData(false, button);
                 datas[y, x].Position = new Vector2(x, y);
+                
                 button.name = "seat";
                 button.userData = datas[y, x];
-                
                 button.clicked += () => OnSeatClicked(button);
-                button.RegisterCallback<MouseDownEvent>((e) => OnSeatClicked(button, true));
+                button.RegisterCallback<MouseDownEvent>((e) => OnSeatClicked(button, false));
+                
                 background.Add(button);
             }
         }
@@ -58,7 +59,7 @@ public class SeatGeneratorEditor : EditorWindow
         generateSeat.clicked += () => GenerateSeat(generateSeat);
     }
 
-    private void OnSeatClicked(Button button, bool isMulti = false)
+    private void OnSeatClicked(Button button, bool isSingle = true)
     { 
         SeatData data = button.userData as SeatData;
         prevData = currentData;
@@ -70,7 +71,7 @@ public class SeatGeneratorEditor : EditorWindow
             return;
         }
 
-        if (isMulti) {
+        if (!isSingle) {
             currentData.Seat.style.backgroundColor = Color.yellow;
             currentData.IsChecked = false;
             isMult = true;
