@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 public class SeatGeneratorEditor : EditorWindow
 {
+    [SerializeField] private GameObject seatPrefab;
     private const int Vert = 40;
     private const int Horizon = 50;
 
@@ -110,6 +111,7 @@ public class SeatGeneratorEditor : EditorWindow
     {
         GameObject prefab = new GameObject();
         prefab.name = prefabTextField.value;
+        int count = 0;
 
         for (int i = 0; i < Vert; i++)
         {
@@ -117,9 +119,16 @@ public class SeatGeneratorEditor : EditorWindow
             {
                 if (datas[i, j].IsChecked)
                 {
-                    
+                    GameObject newSeat = Instantiate(seatPrefab);
+                    newSeat.GetComponent<RectTransform>().position = new Vector2(j * 15, i * 15);
+                    newSeat.name = $"seat{++count}";
+                    newSeat.transform.SetParent(prefab.transform);
                 }
             }
         }
+        
+        string path = $"Assets/02Prefab/{prefabTextField.value}.prefab";
+        PrefabUtility.SaveAsPrefabAsset(prefab, path);
+        DestroyImmediate(prefab);
     }
 }
