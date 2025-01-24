@@ -2,33 +2,18 @@ using System;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using System.Collections.Generic;
 
-public class SeatData
-{
-    public Button Seat {get; set;}
-    public Vector2 Position {get; set;}
-    public bool IsChecked {get; set;}
-
-    public SeatData(bool isChecked, Button seat)
-    {
-        IsChecked = isChecked;
-        Seat = seat;
-    }
-}
 public class SeatGeneratorEditor : EditorWindow
 {
     private const int Vert = 40;
     private const int Horizon = 50;
 
-    private int vert;
-    private int horizon;
+    private bool isMult = false;
     
     private SeatData[,] datas = new SeatData[Vert, Horizon];
     private SeatData currentData;
     private SeatData prevData;
 
-    private Button seat;
     private Button generateSeat;
     private VisualElement background;
     private TextField prefabTextField;
@@ -48,7 +33,6 @@ public class SeatGeneratorEditor : EditorWindow
         root.Add(tree);
 
         #region AssignElements
-        seat = tree.Q<Button>("seat");
         generateSeat = tree.Q<Button>("generate-btn");
         background = tree.Q<VisualElement>("seat-background");
         prefabTextField = tree.Q<TextField>("seat-name");
@@ -60,10 +44,12 @@ public class SeatGeneratorEditor : EditorWindow
             {
                 Button button = new Button();
                 datas[y, x] = new SeatData(false, button);
+                datas[y, x].Position = new Vector2(x, y);
                 button.name = "seat";
                 button.userData = datas[y, x];
                 
                 button.clicked += () => OnSeatClicked(button);
+                button.RegisterCallback<MouseDownEvent>((e) => OnSeatClicked(button, true));
                 background.Add(button);
             }
         }
@@ -71,44 +57,52 @@ public class SeatGeneratorEditor : EditorWindow
         generateSeat.clicked += () => GenerateSeat(generateSeat);
     }
 
-    private void OnSeatClicked(Button button)
+    private void OnSeatClicked(Button button, bool isMulti = false)
     { 
-        Debug.Log("멀티");
-
         SeatData data = button.userData as SeatData;
-        prevData = data;
-        data.Position = new Vector2(vert, horizon);
-        data.IsChecked = !data.IsChecked;
+        prevData = currentData;
         currentData = data;
+        data.IsChecked = !data.IsChecked;
 
-        if (Event.current.isKey)
-            OnMultiSelect();
-        else
+        if (isMult) {
+            SetMultiSeat();
+            return;
+        }
+
+        if (isMulti) {
+            currentData.Seat.style.backgroundColor = Color.yellow;
+            currentData.IsChecked = false;
+            isMult = true;
+        }
+        else {
             SetSeatSelect(currentData);
+            isMult = false;
+        }
     }
-
+    
+    private void SetMultiSeat()
+    {
+        if (prevData == null) return;
+        
+        for (int i = (int)prevData.Position.y; i <= (int)currentData.Position.y; i++)
+        {
+            for (int j = (int)prevData.Position.x; j <= (int)currentData.Position.x; j++)
+            {
+                SetSeatSelect(datas[i, j], true);
+            }
+        }
+        
+        isMult = false;
+    }
+    
     private void SetSeatSelect(SeatData data, bool isMulti = false)   
     {
-        if(data.IsChecked)
-            data.Seat.style.backgroundColor = Color.green;
-        else
-            data.Seat.style.backgroundColor = Color.white;
+        data.Seat.style.backgroundColor = data.IsChecked ? Color.green : Color.white;
 
         if (isMulti)
         {
             data.Seat.style.backgroundColor = Color.green;
             data.IsChecked = true;
-        }
-    }
-
-    private void OnMultiSelect()
-    {
-        for (int i = (int)prevData.Position.y; i < (int)currentData.Position.y; i++)
-        {
-            for (int j = (int)prevData.Position.x; j < (int)currentData.Position.x; j++)
-            {
-                SetSeatSelect(datas[j, i], true);
-            }
         }
     }
 
@@ -121,7 +115,10 @@ public class SeatGeneratorEditor : EditorWindow
         {
             for (int j = 0; j < Horizon; j++)
             {
-                
+                if (datas[i, j].IsChecked)
+                {
+                    
+                }
             }
         }
     }
