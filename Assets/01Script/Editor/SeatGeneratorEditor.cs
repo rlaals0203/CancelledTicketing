@@ -9,15 +9,15 @@ public class SeatGeneratorEditor : EditorWindow
     private const int Vert = 40;
     private const int Horizon = 50;
 
-    private bool isMult = false;
+    private bool _isMult = false;
     
-    private SeatData[,] datas = new SeatData[Vert, Horizon];
-    private SeatData currentData;
-    private SeatData prevData;
+    private SeatData[,] _datas = new SeatData[Vert, Horizon];
+    private SeatData _currentData;
+    private SeatData _prevData;
 
-    private Button generateSeat;
-    private VisualElement background;
-    private TextField prefabTextField;
+    private Button _generateSeat;
+    private VisualElement _background;
+    private TextField _prefabTextField;
     
     [MenuItem("Tools/SeatGenerator")]
     public static void ShowWindow()
@@ -34,9 +34,9 @@ public class SeatGeneratorEditor : EditorWindow
         root.Add(tree);
 
         #region AssignElements
-        generateSeat = tree.Q<Button>("generate-btn");
-        background = tree.Q<VisualElement>("seat-background");
-        prefabTextField = tree.Q<TextField>("seat-name");
+        _generateSeat = tree.Q<Button>("generate-btn");
+        _background = tree.Q<VisualElement>("seat-background");
+        _prefabTextField = tree.Q<TextField>("seat-name");
         #endregion
         
         for (int y = 0; y < Vert; y++)
@@ -44,57 +44,58 @@ public class SeatGeneratorEditor : EditorWindow
             for (int x = 0; x < Horizon; x++)
             {
                 Button button = new Button();
-                datas[y, x] = new SeatData(false, button);
-                datas[y, x].Position = new Vector2(x, y);
+                _datas[y, x] = new SeatData(false, button);
+                _datas[y, x].Position = new Vector2(x, y);
                 
                 button.name = "seat";
-                button.userData = datas[y, x];
+                button.userData = _datas[y, x];
                 button.clicked += () => OnSeatClicked(button);
                 button.RegisterCallback<MouseDownEvent>((e) => OnSeatClicked(button, false));
                 
-                background.Add(button);
+                _background.Add(button);
             }
         }
         
-        generateSeat.clicked += () => GenerateSeat(generateSeat);
+        _generateSeat.clicked += () => GenerateSeat(_generateSeat);
     }
 
     private void OnSeatClicked(Button button, bool isSingle = true)
     { 
         SeatData data = button.userData as SeatData;
-        prevData = currentData;
-        currentData = data;
+        if (data == null) return;
+        _prevData = _currentData;
+        _currentData = data;
         data.IsChecked = !data.IsChecked;
 
-        if (isMult) {
+        if (_isMult) {
             SetMultiSeat();
             return;
         }
 
         if (!isSingle) {
-            currentData.Seat.style.backgroundColor = Color.yellow;
-            currentData.IsChecked = false;
-            isMult = true;
+            _currentData.Seat.style.backgroundColor = Color.yellow;
+            _currentData.IsChecked = false;
+            _isMult = true;
         }
         else {
-            SetSeatSelect(currentData);
-            isMult = false;
+            SetSeatSelect(_currentData);
+            _isMult = false;
         }
     }
     
     private void SetMultiSeat()
     {
-        if (prevData == null) return;
+        if (_prevData == null) return;
         
-        for (int i = (int)prevData.Position.y; i <= (int)currentData.Position.y; i++)
+        for (int i = (int)_prevData.Position.y; i <= (int)_currentData.Position.y; i++)
         {
-            for (int j = (int)prevData.Position.x; j <= (int)currentData.Position.x; j++)
+            for (int j = (int)_prevData.Position.x; j <= (int)_currentData.Position.x; j++)
             {
-                SetSeatSelect(datas[i, j], true);
+                SetSeatSelect(_datas[i, j], true);
             }
         }
         
-        isMult = false;
+        _isMult = false;
     }
     
     private void SetSeatSelect(SeatData data, bool isMulti = false)   
@@ -111,14 +112,14 @@ public class SeatGeneratorEditor : EditorWindow
     private void GenerateSeat(Button button)
     {
         GameObject prefab = new GameObject();
-        prefab.name = prefabTextField.value;
+        prefab.name = _prefabTextField.value;
         int count = 0;
 
         for (int i = 0; i < Vert; i++)
         {
             for (int j = 0; j < Horizon; j++)
             {
-                if (datas[i, j].IsChecked)
+                if (_datas[i, j].IsChecked)
                 {
                     GameObject newSeat = Instantiate(seatPrefab);
                     newSeat.GetComponent<RectTransform>().position = new Vector2(j * 15, i * 15);
@@ -128,7 +129,7 @@ public class SeatGeneratorEditor : EditorWindow
             }
         }
         
-        string path = $"Assets/02Prefab/{prefabTextField.value}.prefab";
+        string path = $"Assets/02Prefab/{_prefabTextField.value}.prefab";
         PrefabUtility.SaveAsPrefabAsset(prefab, path);
         DestroyImmediate(prefab);
     }
